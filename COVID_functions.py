@@ -7,7 +7,10 @@ def CovidRelated(title_string):
 
 
 def ReadSubreddit(sr):
-    parent_folder = '/home/jpre/Documents/DTU/COVIDpolitics/'
+
+    import pandas as pd
+
+    parent_folder = '/home/jpre/Documents/DTU/COVIDpolitics2021/COVIDvsPOLITICS/'
     data0_folder = parent_folder + 'data/'
     comment_folder = data0_folder + 'posts/comments/'
     data_folder = comment_folder + sr + '/'
