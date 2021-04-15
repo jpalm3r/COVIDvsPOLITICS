@@ -6,7 +6,7 @@ def CovidRelated(title_string):
     return int(sum(covid_in_title) > 0)
 
 
-def ReadSubreddit(sr):
+def ReadSubreddit(sr, agg_step = 'week'):
 
     import pandas as pd
 
@@ -52,8 +52,17 @@ def ReadSubreddit(sr):
     metadat0['date'] = metadat0['TimeStamp'].dt.date
     metadat0['1dayafter'] = metadat0['TimeStamp'] + pd.DateOffset(1)
 
-    metadat0['period'] = metadat0['TimeStamp'].astype('int')//(1e9*60*60*24*7)
-    metadat0['period'] = metadat0['TimeStamp'].dt.week
+    #metadat0['period'] = metadat0['TimeStamp'].astype('int')//(1e9*60*60*24*7)
+    metadat0['week'] = metadat0['TimeStamp'].dt.week
+    metadat0['day'] = metadat0['TimeStamp'].dt.dayofyear
+    metadat0['month'] = metadat0['TimeStamp'].dt.month
+    
+    if agg_step == 'day':
+        metadat0['period'] = metadat0['day']
+    if agg_step == 'month':
+        metadat0['period'] = metadat0['month']
+    else:
+        metadat0['period'] = metadat0['week']
 
     metadat0['comments'] = comment_list
 
