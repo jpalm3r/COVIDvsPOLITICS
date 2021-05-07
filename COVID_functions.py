@@ -6,7 +6,7 @@ def CovidRelated(title_string):
     return int(sum(covid_in_title) > 0)
 
 
-def ReadSubreddit(sr, agg_step = 'week'):
+def ReadSubreddit(sr, agg_step = 'week', year = 2020):
 
     import pandas as pd
 
@@ -14,6 +14,9 @@ def ReadSubreddit(sr, agg_step = 'week'):
     data0_folder = parent_folder + 'data/'
     comment_folder = data0_folder + 'posts/comments/'
     data_folder = comment_folder + sr + '/'
+    
+    if year != 2020:
+        data_folder = data_folder = comment_folder + sr + '/' + str(year) + '/'
 
     metadf1_column_titles = ['created_utc',
                              'retrieved_on',
@@ -36,7 +39,7 @@ def ReadSubreddit(sr, agg_step = 'week'):
     titles_file_path = data_folder + 'data1.txt'
     meta_file_path = data_folder + 'metadata1.txt'
 
-    df1_column_titles = ['title']
+    #df1_column_titles = ['title']
     with open(titles_file_path, 'r') as file:
         all_comments = file.read().replace('\n', '')
 
@@ -57,16 +60,11 @@ def ReadSubreddit(sr, agg_step = 'week'):
     metadat0['day'] = metadat0['TimeStamp'].dt.dayofyear
     metadat0['month'] = metadat0['TimeStamp'].dt.month
     
-    if agg_step == 'day':
-        metadat0['period'] = metadat0['day']
-    if agg_step == 'month':
-        metadat0['period'] = metadat0['month']
-    else:
-        metadat0['period'] = metadat0['week']
+    metadat0['period'] = metadat0[agg_step]
 
     metadat0['comments'] = comment_list
 
-    dat1 = metadat0[metadat0['TimeStamp'].dt.year.isin([2020])]
+    dat1 = metadat0[metadat0['TimeStamp'].dt.year.isin([year])]
     dat1['hour'] = dat1['TimeStamp'].dt.hour
     dat1['hour_retrieved'] = dat1['TimeStamp_retrieved'].dt.hour
     

@@ -26,15 +26,10 @@ reddit = praw.Reddit(client_id = my_client_id,
 api = PushshiftAPI(reddit)
 
  # Defining folder paths
-parent_folder = '/home/jpre/Documents/DTU/COVIDpolitics/'
+parent_folder = '/home/jpre/Documents/DTU/COVIDpolitics2021/COVIDvsPOLITICS/data/'
 data_folder = parent_folder + 'data/'
 posts_folder = data_folder + 'posts/'
 comment_folder = posts_folder + 'comments/'
-
- # Reading relevant lists 
-covid_posts_id = pd.read_csv(posts_folder + 'covid_id_posts.txt', names=['id'], header=None).id.tolist()
-us_states_subreddits = pd.read_csv(parent_folder + 'us_states_subreddits.txt', names=['id'], header=None).id.tolist()
-us_states_subreddits = [x[2:] for x in us_states_subreddits]
 
 BODYTITLE_DICT = {'comment' : 'body', 'submission' : 'title'}
 
@@ -42,8 +37,8 @@ BODYTITLE_DICT = {'comment' : 'body', 'submission' : 'title'}
 # %H:%M:%S %d/%m/%Y
 # datetime.datetime.fromtimestamp(1582260266)
 
-first_t = datetime.datetime.strptime(('{0}:{1}:{2} {3}/{4}/{5}').format(0,0,0,1,1,2020), '%H:%M:%S %d/%m/%Y')
-last_t = datetime.datetime.strptime(('{0}:{1}:{2} {3}/{4}/{5}').format(0,0,0,2,2,2021), '%H:%M:%S %d/%m/%Y')
+first_t = datetime.datetime.strptime(('{0}:{1}:{2} {3}/{4}/{5}').format(0,0,0,1,1,2019), '%H:%M:%S %d/%m/%Y')
+last_t = datetime.datetime.strptime(('{0}:{1}:{2} {3}/{4}/{5}').format(23,59,59,31,12,2019), '%H:%M:%S %d/%m/%Y')
 
 
 delta_t = 60*60*4
@@ -79,15 +74,13 @@ istest = False
 ########################################
 
 # Name of the file where to store all data
-#us_states_subreddits = ['massachusetts', 'california']
-relevant_subreddits = ['coronavirus','democrats', 'republican', 'conservative','libertarian','socialism','liberal']
-relevant_subreddits = ['republican', 'conservative','libertarian','socialism','liberal']
+relevant_subreddits = ['republican']
 for foldername in relevant_subreddits:
     
     filters['subreddit'] = foldername
     
     # Creating a folder where to store the data
-    file_folder = comment_folder + foldername + '/'
+    file_folder = comment_folder + foldername + '2019/'
     
     if istest:
         file_folder = file_folder + 'test/'
