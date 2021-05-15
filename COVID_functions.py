@@ -178,6 +178,9 @@ def CreateDfRelevant(word_i, Nr, dc19, datest, impact_metric = 'num_comments'):
     idx_rel = titles_withword.groupby(['period'])[impact_metric].transform(max) == titles_withword[impact_metric]
     titles_withword = titles_withword[['period','title',impact_metric]][idx_rel]
     titles_withword = titles_withword.set_index('period')
+    
+    titles_withword = titles_withword.dropna()
+    
     i_relevant = titles_withword.num_comments.nlargest(Nr).index
     df_relevant = datest.join(titles_withword, how='outer').reset_index().iloc[i_relevant]
     
@@ -239,7 +242,7 @@ def CreateCalendarPlot(word_i, relevant_days, relevant_titles, width = 320, ms =
                                 'color':color_points,
                                 'date':relevant_dates,
                                 'title':relevant_titles})
-    source = ColumnDataSource(df_calendar)
+    source = ColumnDataSource(df_calendar.dropna())
 
     # Initializing figure
     p_cal = figure(plot_width=width, plot_height=plot_height, title = None, tools = '', tooltips = None,
@@ -378,7 +381,7 @@ def CreateRankingPlot(dat5, controversy_topics):
                                        y=[h + 1 for h in range(len(words_0))],
                                        text=words_0)), text1)
 
-    return(p6)
+    return(p6,dict_multi)
 
 
 
