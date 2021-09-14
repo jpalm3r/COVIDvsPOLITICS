@@ -186,7 +186,7 @@ def CreateDfRelevant(word_i, Nr, dc19, datest, impact_metric = 'num_comments'):
     
     return(df_relevant)
 
-def CreateCalendarPlot(word_i, relevant_days, relevant_titles, width = 320, ms = 6):
+def CreateCalendarPlot(word_i, relevant_days, relevant_titles, width = 320, ms = 6, col = 'blue'):
     
     import numpy as np
     import datetime
@@ -198,10 +198,10 @@ def CreateCalendarPlot(word_i, relevant_days, relevant_titles, width = 320, ms =
     TOOLTIPS_title = """
         <div>
             <div>
-                <span style="font-size: 15px; font-weight: bold;">@date</span>
+                <span style="font-size: 18px; font-weight: bold;">@date</span>
             </div>
             <div style="width:200px; height: 30%;">
-                <span style="font-size: 13px; color: #966;">@title</span>
+                <span style="font-size: 16px; color: #966;">@title</span>
             </div>
         </div>
     """
@@ -224,7 +224,7 @@ def CreateCalendarPlot(word_i, relevant_days, relevant_titles, width = 320, ms =
     # Plot attributes
     plot_height = int(np.floor(width*(calendar_rows/calendar_cols)))
 
-    color_points = ['blue' for _ in x_calendar_flat]
+    color_points = [col for _ in x_calendar_flat]
     color_points[50] = 'red'
 
     # Selecting the relevant days
@@ -283,7 +283,7 @@ def CreateCalendarPlot(word_i, relevant_days, relevant_titles, width = 320, ms =
 def flatten(l):
     return([item for sublist in l for item in sublist])
 
-def CreateRankingPlot(dat5, controversy_topics):
+def CreateRankingPlot(dat5, controversy_topics, ndays = 14, col1 = 'skyblue', col2 = 'orangered', col3 = 'hotpink'):
     
     from scipy import interpolate
     import pandas as pd
@@ -304,7 +304,7 @@ def CreateRankingPlot(dat5, controversy_topics):
     TOOLTIPS_word = """
         <div>
             <div>
-                <span style="font-size: 18px; font-weight: bold; color: #FF4500;">@word</span>
+                <span style="font-size: 18px; font-weight: bold; color: #820872;">@word</span>
             </div>
         </div>
     """
@@ -315,7 +315,7 @@ def CreateRankingPlot(dat5, controversy_topics):
     #dat5 = datest
     dat5['x'] = [x for x in range(dat5.shape[0])]
 
-    dat5['period'] = dat5.x//14
+    dat5['period'] = dat5.x//ndays
     dat5 = dat5[['period'] + controversy_topics]
     dat5 = dat5.groupby(['period']).agg(sum).reset_index()
     dat5_melt = pd.melt(dat5, id_vars=['period'])
@@ -335,52 +335,70 @@ def CreateRankingPlot(dat5, controversy_topics):
 
     n_periods = len(dat5_max.period.unique())
     dict_multi = {'x' : [], 'y' : [], 'word' : []}
-
+    
+    # Words during the week 
+    start_week = 1
+    words_0 = dat5_max[dat5_max.period == start_week].variable.tolist()[::-1]
+    # The curves are interpolated stepsize times
+    stepsize = 40
     for pos0, wordi in enumerate(controversy_topics):
 
         dfi = dat5_max[dat5_max.variable == wordi].sort_values('period')
         xi = dfi['period'].to_numpy()
         yi = dfi['position'].to_numpy()
         xi, yi = add_widths(xi, yi)
-        xi_smooth = np.linspace(0, n_periods, num=n_periods*40, endpoint=True)
+        xi_smooth = np.linspace(0, n_periods-1, num=n_periods*stepsize, endpoint=True)
         yi_smooth = interpolate.PchipInterpolator(xi, yi)(xi_smooth)
 
         # I add the selection glyph because I want to fix a particular line for comparing
 
-        dict_multi['x'].append(xi_smooth)
-        dict_multi['y'].append(yi_smooth)
+        dict_multi['x'].append(xi_smooth[(start_week*stepsize):])
+        dict_multi['y'].append(yi_smooth[(start_week*stepsize):])
         dict_multi['word'].append(wordi)
 
 
-
-    words_0 = dat5_max[dat5_max.period == 0].variable.tolist()[::-1]
-
     source = ColumnDataSource(dict_multi)
 
-    p6 = figure(plot_width = 950, plot_height = 360, tools = '', y_range = (0,19.5), x_range = (-3, 26),
-                tooltips=TOOLTIPS_word)
-    ml = p6.multi_line(xs='x', ys='y',line_width=1, line_color='skyblue',line_alpha=0.3,
-                 hover_line_color='orangered', hover_line_alpha=1.0,
+    p6 = figure(plot_width = 1200, plot_height = 500, tools = '', y_range = (0,19.5), x_range = (1, 26),
+                tooltips=TOOLTIPS_word, title = '(click to fix the line on the screen!)')
+    ml = p6.multi_line(xs='x', ys='y',line_width=1, line_color=col1,line_alpha=0.3,
+                 hover_line_color=col2, hover_line_alpha=1.0,
                  source=source)
     
     ml.hover_glyph.line_width=2.5
 #    ml.tap_glyph.line_color='red'
 
-# Adding selection tool
-    selected_line = MultiLine(line_width=2.5, line_color='#f4aa42')
+    # Adding selection tool
+    selected_line = MultiLine(line_width=2.5, line_color=col3)
     ml.selection_glyph = selected_line
     tap_line = TapTool(renderers=[ml])
     p6.add_tools(tap_line)
 
     p6 = empty_canvas(p6)
+    
+    p6.yaxis.visible = True
+    yaxis_tickpos = list(range(1,len(controversy_topics)+1))
+    p6.yaxis.ticker = yaxis_tickpos
+    
+    p6.yaxis.major_label_overrides = {(pos+1):lab for pos,lab in enumerate(words_0)}
+    p6.yaxis.major_label_text_font_size = '16pt'
+    p6.yaxis.major_label_text_color = 'black'
+    p6.yaxis.major_tick_line_color = None
+    p6.yaxis.axis_line_color = None
 
-    text1 = Text(x='x', y='y', text="text", text_font_size = '14pt', y_offset = 0, x_offset = 0, 
+    p6.title.text_font_size = '16pt'
+    
+    
+    # Adding text
+    '''
+    text1 = Text(x='x', y='y', text="text", text_font_size = '16pt', y_offset = 0, x_offset = 0, 
                   text_color = 'blue', text_baseline = 'middle', text_align = 'right')
 
-    p6.add_glyph(ColumnDataSource(dict(x=[-0.2 for _ in words_0],
+    p6.add_glyph(ColumnDataSource(dict(x=[0.5 for _ in words_0],
                                        y=[h + 1 for h in range(len(words_0))],
                                        text=words_0)), text1)
 
+    '''
     return(p6,dict_multi)
 
 
