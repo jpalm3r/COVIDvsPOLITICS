@@ -1,3 +1,41 @@
+
+import multiprocessing
+from itertools import product
+import pandas as  pd
+import numpy as np
+
+
+def CountWord(title, word):
+    
+    from collections import Counter 
+    
+    tokens = tokenizer(title)
+    
+    c = Counter(tokens)
+    
+    if word in c.keys():
+        return c[word]
+    else:
+        return 0
+    
+def COVIDwordIndex(string, topics):
+
+    return sum([int(x in string)/len(topics) for x in topics])
+
+
+def RateChange(word, d2019, d2020):
+    
+    n19 = d2019.comments.apply(lambda x: x.count(word)).sum()/d2019.shape[0]
+    n20 = d2020.comments.apply(lambda x: x.count(word)).sum()/d2020.shape[0]
+    
+    return n20/(n20 + n19)    
+    
+def HasCOVIDword(tokens, word):
+    return(word in tokens)
+   
+    #print(w_i, rc_i, rc_j)
+    
+
 def CovidRelated(title_string):
     title_string = title_string.lower()
     covid_tags = ['coronavirus', 'covid', 'quarantine','c19','c-19', 'wuhan', 'fauci', 'mask',
@@ -402,7 +440,118 @@ def CreateRankingPlot(dat5, controversy_topics, ndays = 14, col1 = 'skyblue', co
     return(p6,dict_multi)
 
 
+def CreateMetricOneWord(w_i, y_rep, y_dem,sizedot = 9, sizefont = '28pt', lgnd = False, plotax = False, plotsize = (350,350), Colors = ('goldenrod','#820872','black')):
 
+	from sklearn.linear_model import LinearRegression
+	from math import ceil
+	import numpy as np
+
+	from bokeh.models import ColumnDataSource, HoverTool, Label, Legend
+	from bokeh.plotting import figure
+
+	c1 = Colors[0]
+	c2 = Colors[1]
+	c3 = Colors[2]
+
+	max_count = max(y_rep + y_dem)
+
+	y_rep = [j/max_count for j in y_rep]
+	y_dem = [j/max_count for j in y_dem]
+
+	maxxy = 1.03 #+ 1
+	minxy = -0.03
+
+	x_vector = range(-10,10)
+
+	X_rep = np.array(y_rep).reshape(-1,1)
+	reg = LinearRegression(fit_intercept = False).fit(X=X_rep, y=y_dem)
+	R2 = reg.score(X=X_rep, y=y_dem)
+	slope = reg.coef_[0]
+	neutrality_index =  R2, np.exp(R2)*np.tanh(-(slope-1))
+
+	p_1 = figure(plot_width= plotsize[0], plot_height=plotsize[1],
+		     title = '', 
+		     x_range=(minxy,maxxy),y_range = (minxy,maxxy), tools = '')
+
+	center_xy = (maxxy+minxy)/2
+
+	label_i = Label(x=center_xy, y=center_xy, text=w_i, text_font_size = sizefont,
+		        border_line_color=None, border_line_alpha=1.0, text_font_style = 'bold',
+		        background_fill_color=None, background_fill_alpha=1.0, text_color = 'black',
+		        text_baseline = 'middle', text_align = 'center',  text_alpha = 1,
+		        level='underlay')
+
+	p_1.add_layout(label_i)
+	ref_line = p_1.line(y=x_vector, x=x_vector, color=c2, alpha = 1, line_width = 1.6, line_dash = 'dashed')
+	slope_line = p_1.line(x=x_vector, y=[slope*x for x in x_vector], color=c2, alpha = 1, line_width = 1.8, line_dash = 'solid')
+
+	r = p_1.scatter(x=y_rep, y=y_dem, color=c1, alpha = 1, size=sizedot, line_color = c3)
+
+	if(lgnd):
+		legend = Legend(items=[('Monthly mentions of "china" in (*)', [r]),
+				       ('Reference line', [ref_line]),
+				      ('Slope line', [slope_line])])
+		legend.click_policy="mute"
+		legend.border_line_width = 0
+		legend.label_text_font_size = '16pt'
+		p_1.add_layout(legend, 'right')
+
+
+	# Adjusting plot parameters
+	#p.x_range.range_padding = 0.05
+	p_1.xaxis.axis_label = "(*) r/republican"
+	p_1.yaxis.axis_label = "(*) r/democrats"
+	p_1.xaxis.visible = plotax
+	p_1.yaxis.visible = plotax
+	p_1.yaxis.axis_line_width = 1
+	p_1.yaxis.ticker = []
+	p_1.xaxis.axis_line_width = 1
+	p_1.xaxis.ticker = []
+
+	p_1.axis.axis_label_text_font_size = '16pt'
+	p_1.axis.axis_label_text_font_style = 'normal'
+	p_1.axis.axis_label_text_color = 'black'
+	p_1.axis.axis_line_width = 1.5
+
+	p_1.grid.visible = False
+	p_1.background_fill_color = 'white'
+	p_1.background_fill_alpha = 1
+
+	p_1.outline_line_color = 'black'
+	p_1.border_fill_color = None
+
+	p_1.background_fill_color = "seashell"
+
+	p_1.sizing_mode = 'scale_width'
+
+	return(p_1,neutrality_index)
+
+
+def CountWordsInDF(df, controversy_topics):
+    
+    try:
+        cpus = multiprocessing.cpu_count()
+    except NotImplementedError:
+        cpus = 2   # arbitrary default
+
+    comments_ = df.comments.tolist()
+
+    all_comments = ' '.join(comments_)
+
+    n_comments = len(comments_)
+    num_topics = len(controversy_topics)
+
+    pool = multiprocessing.Pool(processes=cpus)
+    matrix_list = pool.starmap(CountWord, product(comments_,controversy_topics))
+
+    matrix_probs = np.array(matrix_list)
+    shape = (n_comments, num_topics)
+    matrix_df = pd.DataFrame(matrix_probs.reshape(shape))
+    matrix_df.columns = controversy_topics
+
+    df = pd.concat([df.reset_index(), matrix_df.reset_index()], axis=1)
+    
+    return(df)
 
 
 # def GenerateTimelinePLot(i, indx, titles_withword, sizeplot = (320,80), TOOLS = 'box_zoom,reset'):
