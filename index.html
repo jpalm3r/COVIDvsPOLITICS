@@ -94,21 +94,21 @@
   </head>
 
   <body>
-    <h1  style="color: #000000; font-family:Arial; font-size:100px; text-align:center;line-height:20%">INVADERS</h1>
+    <h1  style="color: #000000; font-family:Arial; font-size:100px; text-align:center;line-height:20%">INVADER/S</h1>
     <h2 style="text-align:center; font-family:Helvetica;">by Jaume Palmer Real</h2>
   <br>
 
   <p  class = "center" style="text-align:left">
     By the end of 2019 the SARS-CoV-2 virus strain emerged and developed into a global pandemic.
-    Consequently, (virtually) all aspects of our lives were affected. However, despite the feeling that the virus paralyzed the world, the pandemic itself has been far from still.
-    The spread of the virus has taken many forms, which raised many questions: what is going on in Wuhan? How long will the lockdown last? Are masks effective?
-    Who is manufacturing the vaccines?
+    Consequently, (virtually) all aspects of our lives were affected. However, despite the feeling that the virus paralyzed the world, the pandemic itself was far from being still.
+    The spread of the virus has taken many forms and raised many questions concerning our safety and well-being: the virus mortality rate, the imposition of nation-wide lockdowns
+    or the effectivity of masks and vaccines... just to name a few.
+    The urgency of such topics pushed them into the front page of all our discussions, as we showed in the <a href="https://jpalm3r.github.io/INVADER/">first issue</a>  of this project.
+    This ever-presence raised a very simple question: <u>do political beliefs affect COVID discussion?</u>
     <br>
     <br>
-    The urgency of such topics has modified our discussions and the way we discuss them. This raised a very simple question: do different people discuss COVID related topics
-    differently? Specifically, do political beliefs affect COVID discussion?
-    Maybe our intuition (and prejudices) have an answer to that question. Still, this work intends to quantify and visualize if such political bias exists.
-    For that, we have used data from <a href="www.reddit.com">Reddit</a>, and analyzed post submissions and comments of key communities.
+    Our intuition (and prejudices) might want to answer these questions right away. For this reason, this work intends to quantify and visualize if such political bias exists.
+    To do it, we have used data from <a href="www.reddit.com">Reddit</a>, and analyzed post submissions and comments of key communities.
     Specifically, we identified key words that represent the topics and questions that the pandemic has raised.
     Afterwards, these topics have been analyzed in mainstream political communities to evaluate if there are differences in their usage.
   </p>
@@ -118,12 +118,14 @@
   <p  class = "center" style="text-align:left">
 
     The year 2020 will be forever linked to the pandemic. The virus started to globally spread during January, and by December the first people started to get vaccinated.
-    Thus, 2020 encapsulates most of the major breakthroughs and controversies that defined COVID-19. For this reason, this work has focused only on using data from this strange year.
+    Thus, 2020 encapsulates most of the major breakthroughs and controversies that defined COVID-19 and this work has focused only on studying this strange year.
+    To represent the major COVID-related controversies that flooded 2020, 19 words have been selected from the corpus of all submission titles in the
+    <a href="www.reddit.com/r/coronavirus">r/Coronavirus</a> community. This community is dedicated to sharing global news about the evolution of
+    the pandemic so it should work as a proxy of public discussion.
 
     <br>
+    <br>
 
-    To represent the major covid-related milestones during 2020, 19 words have been selected from the corpus of all submission titles in the
-     <a href="www.reddit.com/r/coronavirus">r/Coronavirus</a> community.
     The following group of infamous words<sup>(1)</sup> are the most used during 2020:
 
     <br>
@@ -145,9 +147,8 @@
 
 
 <p class = "center">
-  They range from little surprising to not surprising at all.
-  However, looking at all of them together, they appear as a foggy cloud of concepts.
-  Checking them individually helps to untangle them and sets a timeline that, probably, all of us remember well.
+  Looking at all of them together, they appear as a foggy cloud of concepts that range from little surprising to not surprising at all.
+  Checking them individually helps to untangle this cloud and sets a timeline that all of us remember well.
 </p>
 
 <!-- 1) Calendar plot -->
@@ -159,7 +160,7 @@
 <br>
 <p  class = "center">
 Throughout the year, the relative importance of each topic changed as we were collectively adapting and overcoming new challenges.
-This can be easily seen by cheking the weekly use of each word compared to the rest:
+This can be easily seen by comparing the usage of each word to the other 18 words, the higher up a word appears, the more important it was during a given period.
 </p>
 <br>
 
@@ -170,16 +171,14 @@ This can be easily seen by cheking the weekly use of each word compared to the r
 
 <br>
 <p  class = "center">
-In the previous plot,the higher up a word appears, the more important it was during a given week.
-You can play around and check the evolution of them individually.
-Also, it is interesting to compare their evolution. As a starter, these are clashes worth checking:
+It is interesting to see the correlation between some of the words; as a starter, these are clashes worth checking:
 
 <ul class = "center" style="text-align:left;padding-left: 10em;">
   <li>The take over of <span class = 'corona'>pandemic</span> over
   <span class = 'corona'>outbreak</span></li>
   <li>The inverse correlation between <span class = 'corona'>hospital</span> and
    <span class = 'corona'>lockdown</span></li>
-  <li>The everpresence of the word <span class = 'corona'>death</span> ,
+  <li>The ominous importance of the word <span class = 'corona'>death</span> ,
   despite the hopeful race upwards of <span class = 'corona'>vaccine</span></li>
 </ul>
 
@@ -188,12 +187,12 @@ Also, it is interesting to compare their evolution. As a starter, these are clas
 <h1 class = "subtitle">Lose-lose</h1>
 
 <p class = "center" style="text-align:left">
-The presented covid-words describe a landscape of topics that were discussed in the official media.
-However, the reactions that they caused might have been different depending on the communities where they were discussed on.
-To sort this out, the following section compares the usage of the 19 words in the <u>comment</u> sections of major political subreddits.
+The presented words describe a landscape of topics that took over public discussion.
+However, the reactions that they caused might have been different depending on the communities they were discussed on.
+To sort this out, this section compares the usage of the 19 words in the <u>comment</u> sections of two major political subreddits.
 <br>
-Given that <a href="www.reddit.com">Reddit</a> is a US-based website, this study has focused to US political communities.
-So, in order to check differences in political discussion we have focused on two communities dedicated to the two major US political parties:
+Given that <a href="www.reddit.com">Reddit</a> is a US-based website, this study has focused on US politics.
+So, in order to check differences in political discussion we have focused on communities dedicated to the two major US political parties:
  <a href="http://www.reddit.com/r/republican"><span class = 'republican'> r/republican </span></a> and
  <a href="http://www.reddit.com/r/republican"><span class = 'democrat'> r/democrats </span></a>.
 <br>
@@ -210,7 +209,7 @@ First of all, an easy check: the total use of the 19 corona words.
 <p class = "center" style="text-align:left">
   It already looks like the words were used more in the republican category; still, the size is comparable in both.
   We can go a bit deeper by comparing the total volume<sup>(2)</sup> of each word in each political community.
-  This gives us a better picture of what is causing the difference that we have seen in the previous figure.
+  This gives us a better picture of what is causing the difference that we see in the previous figure.
 </p>
 
 <br>
@@ -231,13 +230,10 @@ First of all, an easy check: the total use of the 19 corona words.
 <br>
 
 <p class = "center" style="text-align:left">
-Notice that, neutral words, such as <span style="background:#820872;color:white;font-weight:bold">test</span>
-and <span style="background:#820872;color:white;font-weight:bold">positive</span> have comparable sizes.
-On the other hand, other words with more controversial undertones show significant differences in their volumes.
-<br>
-<br>
-It is clear that controversy generates arguments. Typically, in such arguments, people will post longer comments to make sure that their point is carried accross.
-Then, it is fair to ask oneself whether comments that are loaded with controversial words are longer than <i>unloaded</i> comments.
+Notice that, neutral words, such as <span class="corona">test</span>
+and <span class="corona">confirm</span> have comparable sizes. On the other hand, other words with more controversial undertones show significant differences in their volumes.
+It is fair to assume that controversy generates arguments. Typically, in such arguments, people will post longer comments to make sure that their point is carried accross.
+Then, with the next figure, we wanted to check whether comments containing corona-related words are longer than others.
 </p>
 
 <div class='wrapper'>
@@ -245,23 +241,15 @@ Then, it is fair to ask oneself whether comments that are loaded with controvers
 </div>
 
 <p class = "center" style="text-align:left">
-It looks clear that the corona words tend to appear in longer comments.
-Still, focusing on each particular word, there is no clear differences between republican and democrat communities.
-<br>
-As we have seen above studying the <a href="www.reddit.com/r/coronavirus">r/Coronavirus</a>  community, the volume of these 19 words changed with time, as the relevance of
-the topics they described shifted.
-Then, it might be interesting to study the frequency use of these words in the two political communities.
-<br>
-However, <a href="http://www.reddit.com/r/republican"><span style="background:#EC080E;color:white;font-weight:bold"> r/republican </span></a> and
-<a href="http://www.reddit.com/r/republican"><span style="background:#1C81D5;color:white;font-weight:bold"> r/democrats </span></a>  are as broad as
-communities as politics can be, so covid-related discussion will be entangled with many other different topics. To clear the search, we focused on days when the use of
-covid-words was abnormally high, such that we mark with a &#11035; the days when each covid-word surged; the larger the &#11035;, the higher the surge.
-</p>
-
-<p class = "center" style="text-align:left">
-  Notice that the surges propagate over time, given that they seldomly disappear after one day. Also, in general, they do not appear alone as one can see that
-  when a word surges, so do many of the others. The triggers behind the surges is not known a priori,
-  but we included different 2020 milestones to give temporal context, so we invite the reader to explore and come up with a reasonable explanation.
+  It looks like corona words tend to appear in longer comments, and the longest comments contain words that relate to health (<span class = 'corona'> hospit</span> and <span class = 'corona'>patient </span>).
+  Still, focusing on each particular word, there is no clear differences between republican and democrat communities.
+  <br>
+  <br>
+  As we have seen above studying the <a href="www.reddit.com/r/coronavirus">r/Coronavirus</a> community, the volume of these 19 words changed with time, as the relevance of
+  the topics they described shifted. Then, it might be interesting to study the frequency use of these words in the two political communities.
+  However, <a href="http://www.reddit.com/r/republican"><span class = 'republican'> r/republican </span></a> and <a href="http://www.reddit.com/r/democrats"><span class = 'democrat'> r/democrats </span></a>
+  are as broad as communities as politics can be, so covid-related discussion will share the space with many other different topics.
+  To clear the search, we focused on days when the use of COVID-words was abnormally high and we marked them with a &#11035;; the larger the &#11035;, the higher the surge.
 </p>
 
 <!-- Surge plot -->
@@ -269,33 +257,42 @@ covid-words was abnormally high, such that we mark with a &#11035; the days when
   <div class="bk-root" id="597680bc-f90b-4103-8c3b-6feec0a2a77f" data-root-id="91366"></div>
 </div>
 
-  <h1 class = "subtitle">Mapping political bias</h1>
+<p class = "center" style="text-align:left">
+  Notice that the surges propagate over time, given that they seldomly disappear after one day. Also, in general, they do not appear alone as one can see that
+  when the volume of a word peaks so do many of the others, creating vertical patterns in the previous figure. A priori, the triggers behind the surges are not known,
+  but we included different 2020 milestones to give temporal context, and we invite the reader to explore and come up with a reasonable explanation.
+</p>
+
+<h1 class = "subtitle">Mapping political bias</h1>
 
 <p class = "center" style="text-align:left">
-  The previous analysis suggests that there is a difference in how the words are treated in each political community. As we have seen, the use of each word depends:
-  1) on the specific word and 2) on the time it was used.
-  Then, for an arbitrary month of 2020, we can compare the frequency of the different words in the two political communities such that we get something like this:
+  The previous analysis suggests that there is a difference in how the words are treated in each political community and we would like to visualize
+  it in a compact and clear way. Comparing the volumes of each word might not be enough, since we have seen that the time when a word is
+  used can be as important. To combine the volume and temporal use we have computed the monthly volume of each word, and correlated the trend in both
+  political communities.
 </p>
+
+<br>
 
 <!-- Metric plot -->
 <div class='wrapper'>
   <div class="bk-root" id="01f17dee-54b3-4f9b-b3e5-ea0311854cd9" data-root-id="96346"></div>
 </div>
 
-
+<br>
 
 <p class = "center" style="text-align:left">
-If the usage of a word in <a href="http://www.reddit.com/r/republican"><span style="background:#EC080E;color:white;font-weight:bold"> r/republican </span></a> was similar to
- its use in <a href="http://www.reddit.com/r/republican"><span style="background:#1C81D5;color:white;font-weight:bold"> r/democrats </span></a>,
-then we would see a cloud of dots over a straight line at 45 degrees, but clearly that is not the case. If the dots are "tilted" towards one community's axis,
-then that word was systematically more used in that community.
+  If the usage of a word in <a href="http://www.reddit.com/r/republican"><span class='republican'> r/republican </span></a> is similar to
+  its use in <a href="http://www.reddit.com/r/democrats"><span class='democrat'> r/democrats </span></a>,
+  then the cloud of dots will fall over the reference line. If the dots are "tilted" towards one community's axis,
+  then that word was systematically more used in that community. Then, the slope synthetizes the likeness of the use of a word during 2020 in
+  both political communities.
 <br>
 <br>
-Then, the slope synthetizes the likeness of the use of a word during 2020 in both political communities. But these communities already existed before COVID hit.
-So, was the usage of these words "normal" or was indeed triggered by the pandemic. We measured this by measuring the ratio of the frequency of each word in 2019 and their frequency in 2020.
-<br>
-<br>
-Finally, these two metrics allowed us to have a map of the 19 words.
+  But these communities already existed before COVID hit. So, was the usage of these words "normal" or was indeed triggered by the pandemic?
+  We measured this by measuring the volumes of each word during 2019 and computing the ratio between the volumes in 2020 and the previous year.
+  Finally, the slope of the previous figure and the volume ratio represent two metrics that are easily comparable, which allowed us to map
+  map the political bias in one single final plot.
 </p>
 
 <div class='wrapper'>
@@ -303,8 +300,31 @@ Finally, these two metrics allowed us to have a map of the 19 words.
 </div>
 
 <p class = "center" style="text-align:left">
-  The map shows a clear bias towards the <a href="http://www.reddit.com/r/republican"><span style="background:#EC080E;color:white;font-weight:bold"> r/republican </span></a> community.
+  The map shows a clear bias towards the <a href="http://www.reddit.com/r/republican"><span class = 'republican'> r/republican </span></a> community.
+  The severity of this bias is striking and raises the question of whether this community is an appropiate representative of the republican mindset, or <a href="http://www.reddit.com/r/republican"><span class = 'republican'> r/republican </span></a>
+  caters to a more polarized audience than <a href="http://www.reddit.com/r/democrats"><span class='democrat'> r/democrats </span></a>. However, this question is out of
+  the scope of this work.
+  <br>
+  Notice, that the lockdown was a far more important topic in the <a href="http://www.reddit.com/r/republican"><span class = 'republican'> r/republican </span></a> community,
+  while the discussion of masks and vaccines were closer in both political communities. As already hinted in previous figures, there is a big difference in the usage
+  of the word China, even though, since it appears closer to the horizontal axis, it looks like it was a recurrent republican topic in 2019 already. In general, the lower a word appears, the
+  the more broad and politically neutral, which again highlights that the reaction to COVID-discussion was different in both communities. Yet, this map, and the rest of the work for that matter, is open for discussion (it deals with politics after all).
+  <br>
+  <br>
+  Now, to conclude, we believe there is one thing left to highlight about the last figure. Despite the noticeable differences, after all this effort and discussion,
+  the <span class = 'corona'>pandemic</span> is still up there unbiased.
 </p>
+
+<h1 class = "subtitle">
+  THE END
+</h1>
+
+<p class = "center" style="text-align:right">
+<span class = 'footnote'>
+    (For more information about this work, please check this <a href="missing">link</a>.)
+</span>
+</p>
+
 
 </body>
 
